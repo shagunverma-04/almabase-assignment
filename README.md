@@ -23,30 +23,6 @@ Sample questionnaire and reference documents are included in `/mock_data/`.
 
 ---
 
-## Core Features
-
-### Phase 1 — Core Workflow ✅
-- User signup & login (JWT auth)
-- Upload questionnaire (PDF / DOCX / TXT)
-- Upload 1–8 reference documents (PDF / DOCX / TXT)
-- Parse questionnaire into individual questions
-- RAG pipeline: chunk → embed locally (fastembed ONNX, no API) → cosine similarity retrieval → LLM answer generation (Groq / Llama 3.1 8B)
-- `"Not found in references."` returned when no relevant content found
-- Citations attached per answer
-
-### Phase 2 — Review & Export ✅
-- Review all answers in a structured web view
-- Edit any answer inline before export
-- Export full answered questionnaire as DOCX (preserves question structure)
-
-### Nice-to-Have Features ✅
-- **Confidence Score** — 0–100% confidence per answer based on retrieval quality
-- **Evidence Snippets** — exact quote from source document shown per answer
-- **Partial Regeneration** — regenerate any individual answer without reprocessing the whole questionnaire
-- **Coverage Summary** — total questions / answered / not found shown in session header
-
----
-
 ## Tech Stack
 
 | Layer | Technology |
