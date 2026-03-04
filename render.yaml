@@ -19,7 +19,7 @@ services:
     env: static
     plan: free
     rootDir: frontend
-    buildCommand: npm install && npx vite build
+    buildCommand: npm install && node node_modules/vite/bin/vite.js build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
