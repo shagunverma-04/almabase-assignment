@@ -3,10 +3,10 @@
 > Automates vendor assessments, compliance forms, and security questionnaires using RAG (Retrieval-Augmented Generation) over your internal reference documents.
 
 ## Live Demo
-[Insert Render URL here after deployment]
+https://almabase-assignment-live.onrender.com
 
 ## GitHub
-[Insert GitHub URL here]
+https://github.com/shagunverma-04/almabase-assignment
 
 ---
 
@@ -62,32 +62,6 @@ Sample questionnaire and reference documents are included in `/mock_data/`.
 | Deployment | Render (backend: Web Service, frontend: Static Site) |
 
 ---
-
-## Setup & Running Locally
-
-### Prerequisites
-- Python 3.10+
-- Node.js 18+
-- Groq API key — free at https://console.groq.com
-
-### Backend
-```bash
-cd backend
-pip install -r requirements.txt
-# Copy .env.example to .env and fill in your key
-cp .env.example .env
-uvicorn main:app --reload --port 8000
-```
-
-> First startup downloads the fastembed ONNX model (~130 MB) and caches it locally.
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-# Runs at http://localhost:3000
-```
 
 ### Try It With Mock Data
 
