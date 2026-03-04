@@ -76,10 +76,6 @@ _PLACEHOLDER_QUESTIONS = {
     "", "no question", "n/a", "na", "none", "-", "--", "tbd", "n.a.", "not applicable",
 }
 
-# Minimum cosine similarity for chunks to be considered relevant
-_RELEVANCE_THRESHOLD = 0.2
-
-
 def answer_question(
     question: str,
     relevant_chunks: List[dict]
@@ -104,13 +100,8 @@ def answer_question(
     if not relevant_chunks:
         return _not_found
 
-    # Drop chunks below the relevance threshold — don't hallucinate on weak matches
-    strong_chunks = [c for c in relevant_chunks if c.get("score", 0) >= _RELEVANCE_THRESHOLD]
-    if not strong_chunks:
-        return _not_found
-
     context_parts = []
-    for i, chunk in enumerate(strong_chunks):
+    for i, chunk in enumerate(relevant_chunks):
         context_parts.append(f"[Source {i+1}: {chunk['filename']}]\n{chunk['text']}")
     context = "\n\n---\n\n".join(context_parts)
 
