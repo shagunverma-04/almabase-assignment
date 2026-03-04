@@ -65,7 +65,7 @@ Sample questionnaire and reference documents are included in `/mock_data/`.
 
 ### Try It With Mock Data
 
-1. Sign up at http://localhost:3000
+1. Sign up at [https://almabase-assignment-live.onrender.com]
 2. Go to **References** → upload all files from `mock_data/` except `questionnaire_short.txt`
 3. Go to **New Session** → upload `mock_data/questionnaire_short.txt`
 4. Click **Generate Answers**
