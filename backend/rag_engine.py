@@ -121,6 +121,7 @@ Respond ONLY in this JSON format (no markdown, no extra text):
             model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.1,
+            max_tokens=1024,
         )
         text = response.choices[0].message.content.strip()
         text = re.sub(r'^```json\s*', '', text)
