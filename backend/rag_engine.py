@@ -49,7 +49,7 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[str]
 def retrieve_relevant_chunks(
     query: str,
     documents: List[dict],
-    top_k: int = 4
+    top_k: int = 3
 ) -> List[dict]:
     """Retrieve top_k relevant chunks using local ONNX embeddings."""
     query_emb = get_query_embedding(query)
@@ -121,7 +121,7 @@ Respond ONLY in this JSON format (no markdown, no extra text):
             model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.1,
-            max_tokens=1024,
+            max_tokens=2048,
         )
         text = response.choices[0].message.content.strip()
         text = re.sub(r'^```json\s*', '', text)
