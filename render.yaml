@@ -1,0 +1,25 @@
+services:
+
+  # ── Backend (FastAPI) ────────────────────────────────────────────────────────
+  - type: web
+    name: refineai-backend
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-small-en-v1.5')"
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false   # Set this manually in Render dashboard
+
+  # ── Frontend (React static site) ─────────────────────────────────────────────
+  - type: web
+    name: refineai-frontend
+    env: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false   # Set this to your backend URL e.g. https://refineai-backend.onrender.com
