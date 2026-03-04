@@ -150,4 +150,13 @@ Respond ONLY in this exact JSON format (no markdown, no extra text):
         return result
     except Exception as e:
         print(f"[answer_question error] {e}")
-        return _not_found
+        # JSON parse failed or rate limit hit — fall back to best chunk content
+        best_score = max([c.get("score", 0) for c in relevant_chunks], default=0)
+        if best_score < 0.3:
+            return _not_found
+        return {
+            "answer": f"Based on available documents: {relevant_chunks[0]['text'][:500]}",
+            "citations": [f"Source: {relevant_chunks[0]['filename']}"],
+            "evidence_snippets": [relevant_chunks[0]['text'][:150]],
+            "confidence": round(best_score, 2),
+        }
