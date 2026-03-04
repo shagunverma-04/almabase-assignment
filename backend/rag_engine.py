@@ -72,42 +72,68 @@ def retrieve_relevant_chunks(
     return scored[:top_k]
 
 
+_PLACEHOLDER_QUESTIONS = {
+    "", "no question", "n/a", "na", "none", "-", "--", "tbd", "n.a.", "not applicable",
+}
+
+# Minimum cosine similarity for chunks to be considered relevant
+_RELEVANCE_THRESHOLD = 0.4
+
+
 def answer_question(
     question: str,
     relevant_chunks: List[dict]
 ) -> dict:
     """Generate answer with citation and confidence using Groq (Llama 3)."""
-    if not relevant_chunks:
+    _not_found = {
+        "answer": "Not found in references.",
+        "citations": [],
+        "evidence_snippets": [],
+        "confidence": 0.0,
+    }
+
+    # Short-circuit for empty or placeholder questions
+    if not question or question.strip().lower() in _PLACEHOLDER_QUESTIONS:
         return {
-            "answer": "Not found in references.",
+            "answer": "No reference context.",
             "citations": [],
             "evidence_snippets": [],
-            "confidence": 0.0
+            "confidence": 0.0,
         }
 
+    if not relevant_chunks:
+        return _not_found
+
+    # Drop chunks below the relevance threshold — don't hallucinate on weak matches
+    strong_chunks = [c for c in relevant_chunks if c.get("score", 0) >= _RELEVANCE_THRESHOLD]
+    if not strong_chunks:
+        return _not_found
+
     context_parts = []
-    for i, chunk in enumerate(relevant_chunks):
+    for i, chunk in enumerate(strong_chunks):
         context_parts.append(f"[Source {i+1}: {chunk['filename']}]\n{chunk['text']}")
     context = "\n\n---\n\n".join(context_parts)
 
-    prompt = f"""You are answering questions for a company using ONLY the provided reference documents.
+    prompt = f"""You are a compliance assistant answering questions strictly from the provided reference documents.
+
+STRICT RULES:
+1. Use ONLY the text in the REFERENCE DOCUMENTS below. Do NOT use any outside knowledge.
+2. If the answer cannot be found in the documents, you MUST respond with exactly: "Not found in references."
+3. Never invent, guess, or paraphrase beyond what the documents say.
+4. Never say things like "Based on general knowledge" or "Typically...".
 
 REFERENCE DOCUMENTS:
 {context}
 
 QUESTION: {question}
 
-Instructions:
-- Answer using ONLY information from the reference documents above
-- If the answer is not in the documents, respond with exactly: "Not found in references."
-- Be concise and precise
-- Assign a confidence score 0.0-1.0 based on how well the documents support your answer
-  - 0.9-1.0: Direct, explicit answer found
-  - 0.6-0.8: Answer can be inferred from documents
-  - 0.3-0.5: Partial or indirect support
-  - 0.0-0.2: Not supported
+Assign a confidence score 0.0-1.0:
+- 0.9-1.0: Direct, explicit answer found word-for-word
+- 0.6-0.8: Answer clearly supported by documents
+- 0.3-0.5: Partial or indirect support only
+- 0.0: Not supported — use "Not found in references."
 
-Respond ONLY in this JSON format (no markdown, no extra text):
+Respond ONLY in this exact JSON format (no markdown, no extra text):
 {{
   "answer": "your answer here",
   "citations": ["Source 1: filename.txt", "Source 2: filename.txt"],
@@ -129,24 +155,8 @@ Respond ONLY in this JSON format (no markdown, no extra text):
         text = re.sub(r'\s*```$', '', text)
         result = json.loads(text)
         if "not found" in result.get("answer", "").lower():
-            result["answer"] = "Not found in references."
-            result["confidence"] = 0.0
-            result["citations"] = []
-            result["evidence_snippets"] = []
+            return _not_found
         return result
     except Exception as e:
         print(f"[answer_question error] {e}")
-        best_score = max([c.get("score", 0) for c in relevant_chunks], default=0)
-        if best_score < 0.3:
-            return {
-                "answer": "Not found in references.",
-                "citations": [],
-                "evidence_snippets": [],
-                "confidence": 0.0
-            }
-        return {
-            "answer": f"Based on available documents: {relevant_chunks[0]['text'][:300]}",
-            "citations": [f"Source: {relevant_chunks[0]['filename']}"],
-            "evidence_snippets": [relevant_chunks[0]['text'][:150]],
-            "confidence": round(best_score, 2)
-        }
+        return _not_found
