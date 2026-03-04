@@ -84,3 +84,10 @@ Sample questionnaire and reference documents are included in `/mock_data/`.
 8. **Production auth** — email verification, password reset, refresh tokens, and rate limiting on auth endpoints
 
 ---
+Photos:
+<img width="1900" height="863" alt="Screenshot 2026-03-04 211751" src="https://github.com/user-attachments/assets/de7537f7-d4af-4b11-ab4e-92171eaa4d05" />
+
+<img width="1919" height="867" alt="Screenshot 2026-03-04 211814" src="https://github.com/user-attachments/assets/d8a3986d-98a4-492a-beee-ee4a1ef521e1" />
+
+
+<img width="1887" height="864" alt="Screenshot 2026-03-05 035954" src="https://github.com/user-attachments/assets/f9d758e1-b5e6-4914-8de3-686266dae192" />
