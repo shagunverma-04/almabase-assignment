@@ -77,7 +77,7 @@ _PLACEHOLDER_QUESTIONS = {
 }
 
 # Minimum cosine similarity for chunks to be considered relevant
-_RELEVANCE_THRESHOLD = 0.4
+_RELEVANCE_THRESHOLD = 0.2
 
 
 def answer_question(
