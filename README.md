@@ -62,50 +62,6 @@ Sample questionnaire and reference documents are included in `/mock_data/`.
 
 ---
 
-## RAG Pipeline
-
-```
-User Question
-     ↓
-Query Embedding (text-embedding-004, retrieval_query task)
-     ↓
-Chunk Reference Docs (400 words, 80 word overlap)
-     ↓
-Embed All Chunks (text-embedding-004, retrieval_document task)
-     ↓
-Cosine Similarity Ranking → Top 4 Chunks
-     ↓
-Gemini 2.0 Flash: Answer + Citation + Evidence + Confidence
-     ↓
-Store in PostgreSQL → Serve to UI
-```
-
----
-
-## Setup & Running Locally
-
-### Prerequisites
-- Python 3.10+
-- Node.js 18+
-- Gemini API key (free at https://aistudio.google.com)
-
-### Backend
-
-```bash
-cd backend
-pip install -r requirements.txt
-export GEMINI_API_KEY=your_key_here
-uvicorn main:app --reload --port 8000
-```
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-# Runs at http://localhost:3000
-```
 
 ### Try It With Mock Data
 
@@ -151,32 +107,3 @@ npm run dev
 8. **Production auth** — add email verification, password reset, refresh tokens
 
 ---
-
-## Project Structure
-
-```
-questionnaire-tool/
-├── backend/
-│   ├── main.py              # FastAPI app
-│   ├── database.py          # SQLAlchemy models
-│   ├── auth_utils.py        # JWT auth
-│   ├── file_parser.py       # PDF/DOCX/TXT parsing + question extraction
-│   ├── rag_engine.py        # Gemini embeddings + retrieval + answer generation
-│   ├── exporter.py          # DOCX export
-│   ├── requirements.txt
-│   └── routers/
-│       ├── auth.py
-│       ├── documents.py
-│       └── questionnaire.py
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx          # All UI components
-│   │   └── main.jsx
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-└── mock_data/
-    ├── questionnaire.txt
-    ├── security_policy.txt
-    └── infrastructure_sla.txt
-```
