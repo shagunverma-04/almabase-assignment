@@ -1,0 +1,19 @@
+Vendor Security Assessment Questionnaire
+NovaMed Systems — EHR Platform
+Prepared by: Hospital Procurement & Compliance Team
+
+1. Is the platform HIPAA compliant? What certifications does NovaMed hold?
+2. How is patient data encrypted at rest and in transit?
+3. What is your data backup frequency and retention policy?
+4. Describe your disaster recovery plan. What are your RPO and RTO targets?
+5. What uptime SLA does NovaMed guarantee, and what service credits apply if it is not met?
+6. How are user access controls and role-based permissions managed?
+7. What authentication mechanisms are supported (e.g., SSO, MFA)?
+8. What is your policy on third-party data sharing and sub-processors?
+9. How do you handle security incidents and data breaches? What is the notification timeline?
+10. Where is patient data physically stored? Which cloud provider do you use?
+11. How often are penetration tests and security audits conducted?
+12. What is your average response time for critical (P1) support tickets?
+13. Can the platform integrate with existing hospital systems via HL7 or FHIR?
+14. What is the process for data export and patient record portability upon contract termination?
+15. How is NovaMed employee access to customer data governed and monitored?

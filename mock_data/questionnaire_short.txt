@@ -1,0 +1,8 @@
+Vendor Security Assessment — NovaMed Systems
+
+1. Is the platform HIPAA compliant? What certifications does NovaMed hold?
+2. How is patient data encrypted at rest and in transit?
+3. What uptime SLA does NovaMed guarantee, and what are the service credits if it is breached?
+4. What authentication mechanisms are supported, such as SSO and MFA?
+5. What is the Recovery Point Objective (RPO) and Recovery Time Objective (RTO) in the event of a disaster?
+6. How quickly does NovaMed respond to a critical P1 support issue?

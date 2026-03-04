@@ -1,0 +1,55 @@
+NovaMed Systems — Infrastructure & SLA Documentation
+Version 2.1 | Last Updated: February 2025
+
+1. Uptime SLA
+
+NovaMed guarantees 99.9% uptime for all production environments, measured monthly, excluding scheduled maintenance windows. Scheduled maintenance is performed between 2:00 AM and 5:00 AM EST on the third Sunday of each month, with 14 days advance notice provided to all customers via email and the status page.
+
+Service credit schedule if monthly uptime falls below SLA:
+- 99.5% to 99.8%: 5% monthly fee credit
+- 99.0% to 99.4%: 10% monthly fee credit
+- Below 99.0%: 25% monthly fee credit
+
+Credits are applied automatically to the next billing cycle. Customers must request credits within 30 days of the incident.
+
+2. Infrastructure & Cloud Provider
+
+NovaMed's platform is hosted on Amazon Web Services (AWS), with primary infrastructure in the US-East-1 (N. Virginia) region and a disaster recovery environment in US-West-2 (Oregon). Data for EU customers is stored exclusively in AWS eu-west-1 (Ireland) to comply with GDPR and data residency requirements. NovaMed does not use shared multi-tenant databases; each customer's data is logically isolated in separate database schemas with dedicated encryption keys.
+
+3. Backup & Data Retention
+
+Patient data is backed up automatically every 4 hours using incremental snapshots and once daily using full backups. Backups are retained for 90 days in standard storage and an additional 1 year in cold archival storage for regulated customers. Backups are stored in geographically separate AWS regions with cross-region replication enabled. Backup integrity is verified automatically after each backup job. Restoration is tested quarterly.
+
+4. Disaster Recovery & Business Continuity
+
+NovaMed maintains a documented Business Continuity Plan (BCP) and Disaster Recovery Plan (DRP), reviewed and tested annually. Key targets:
+
+- Recovery Point Objective (RPO): 4 hours — maximum data loss in a worst-case disaster scenario
+- Recovery Time Objective (RTO): 4 hours — maximum downtime before full service restoration
+
+Disaster recovery drills are conducted semi-annually with results documented and available to enterprise customers upon request. The DR environment in US-West-2 is kept in warm standby, with database replication running continuously.
+
+5. Support & Response Times
+
+NovaMed provides 24/7/365 support via phone, email, and in-platform ticketing system. Support is staffed globally across US, EU, and APAC time zones.
+
+Support tier definitions and SLAs:
+- Critical (P1): Platform down, data breach, or patient safety impact — First response within 1 hour, resolution target 4 hours.
+- High (P2): Major feature unavailable, significant performance degradation — First response within 4 hours, resolution target 24 hours.
+- Medium (P3): Non-critical feature impacted, workaround available — First response within 8 hours, resolution target 5 business days.
+- Low (P4): General inquiries, feature requests, documentation questions — First response within 1 business day, no resolution SLA.
+
+Dedicated Customer Success Managers (CSMs) are assigned to all enterprise accounts (50+ beds).
+
+6. Interoperability & Integrations
+
+NovaMed supports the following interoperability standards:
+- HL7 v2.x (ADT, ORU, ORM message types)
+- HL7 FHIR R4 (full SMART on FHIR compliance)
+- CDA (Clinical Document Architecture) for document exchange
+
+The platform exposes a RESTful API and webhook support for real-time event notifications. All API integrations require mutual TLS authentication and use OAuth 2.0 for authorization. Pre-built integrations are available for leading lab systems (Quest Diagnostics, LabCorp), major pharmacy networks, and radiology PACS systems. A dedicated integration consultant is assigned to new customers during a 90-day onboarding period.
+
+7. Monitoring & Observability
+
+Platform performance is monitored 24/7 using AWS CloudWatch, Datadog, and PagerDuty. Automated alerts are triggered for any P1 conditions within 60 seconds of detection. A real-time status page is publicly available at status.novamed.io, showing current service status and historical uptime data for the past 90 days. Customers can subscribe to status page notifications via email or webhook.
