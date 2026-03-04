@@ -38,5 +38,3 @@ desktop.ini
 .idea/
 *.suo
 *.user
-EOF
-echo "Done"
