@@ -11,9 +11,9 @@ services:
     startCommand: python -m uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: GROQ_API_KEY
-        sync: false   # Set this manually in Render dashboard
+        sync: false   
 
-  # ── Frontend (React static site) ─────────────────────────────────────────────
+  # ── Frontend ─────────────────────────────────────────────
   - type: web
     name: refineai-frontend
     env: static
@@ -23,4 +23,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        sync: false   # Set this to your backend URL e.g. https://refineai-backend.onrender.com
+        sync: false   
